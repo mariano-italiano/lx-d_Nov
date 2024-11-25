@@ -1,0 +1,249 @@
+for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+echo   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" |   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+docker ps -a
+sudo docker ps -a
+systemctl status docker
+id
+sudo usermod -aG docker
+sudo usermod -aG docker student 
+id 
+sudo -i
+id
+docker ps 
+docker run hello-world
+docker ps
+docker ps -a
+docker --version
+docker version
+docker images
+docker run httpd
+docker ps
+docker ps -a
+docker run -d httpd
+docker ps
+docker run --help
+docker ps 
+docker ps  -a
+systemctl stop docker
+sudo systemctl stop docker
+docker ps -a
+sudo systemctl start docker
+docker ps -a
+docker run -d httpd --name web1 --restart yes
+docker ps -a
+docker rm -f 722f6f06648e
+docker run -d --name web1 --restart yes httpd
+docker run -d --name web1 --restart always httpd
+docker ps
+docker ps -a
+sudo systemctl stop docker
+docker ps -a
+systemctl status docker
+sudo vi /lib/systemd/system/docker.service
+docker ps -a
+docker run -dit --name web2 httpd /bin/bash
+docker exec -it web2 bash
+docker exec -it web2 sh
+docker exec -it web2 bash
+docker exec -it web2 uptime
+which uptime
+docker exec -it web2 /usr/bin/uptime
+docker exec -it web2 netstat 
+docker exec -it web2 echo "test"
+docker exec -it web2 hostname
+docker exec -it web2 ps -ef
+docker exec -it web2 ps
+docker exec -it web2 bash
+docker exec -u 0 -it web2 bash
+docker logs
+docker logs web2
+docker logs web1
+docker logs --help
+docker logs -f web2
+docker logs -f web
+docker logs -f web1
+docker logs --tail 4 web1
+sudo journalctl -u docker
+sudo journalctl -u sshd
+sudo journalctl -u ssh
+sudo journalctl -u docker -p err
+sudo journalctl -p err
+sudo journalctl -u docker -p err
+docker ps -a
+docker run -d --name ubuntu ubuntu
+docker ps -a
+docker start ubuntu 
+docker ps -a
+tail -f /dev/null
+while true ; do sleep 60; done
+docker run -d --name ubuntu2 --entrypoint=tail ubuntu -f /dev/null
+docker ps -a
+docker exec -it ubuntu2 bash
+docker run -d --name ubuntu2 --entrypoint=tail ubuntu -f /dev/null
+docker rm ubuntu 
+docker run -d --rm --name ubuntu ubuntu
+docker ps -a
+docker run --help
+docker ps
+docker stop web2
+docker stop web1
+docker ps -a
+docker start web1
+docker ps -a
+docker ps
+docker restart web1
+docker ps
+docker rename ubuntu2 u22
+docker ps
+docker rm web2
+docker pause web2
+docker pause web1
+docker ps
+docker unpause web1
+docker ps
+docker ps -a
+docker container prune 
+docker ps -a
+docker rm web1
+docker rm -f web1
+docker run -d --restart always --env TEST_ENV1=develop --name webserver nginx:1.19.2 
+docker ps 
+docker exec -it webserver bash
+docker inspect webserver 
+sudo ls -la /var/lib/docker
+docker inspect --format '{{.Config.Env}}' webserver 
+docker inspect --format '{{.Config.Env}}' webserver | python -m json.tool
+docker inspect --format '{{.Config.Env}}' webserver | python2 -m json.tool
+docker inspect --format '{{.Config.Env}}' webserver | python3 -m json.tool
+docker inspect --format '{{.NetworkSettings.Network}}' webserver | python3 -m json.tool
+docker inspect --format '{{.NetworkSettings.Networks}}' webserver | python3 -m json.tool
+docker inspect --format '{{.NetworkSettings.Networks}}' webserver
+docker inspect --format '{{.NetworkSettings.Networks[*]}}' webserver
+docker inspect webserver 
+ip a
+docker ps -a
+docker container ps -a
+docker image
+docker images
+alias 
+docker search ubuntu
+docker search python
+docker search miariadb
+docker search mariadb
+docker pull mariadb/server
+docker pull mariadb
+docker pull ubuntu:18.04
+docker image
+docker images
+docker rmi ubuntu:latest
+docker rmi ubuntu:18.04
+docker image remove mariadb
+docker ps -a
+docker images
+docker image prune 
+docker images
+docker pull nginx-alpine
+docker pull nginx:alpine
+docker images
+docker run -d --name mycustomweb -p 80:80 nginx:alpine  
+docker ps
+ip a
+docker exec -it mycustomweb bash
+docker exec -it mycustomweb sh
+docker cp
+ls -la /tmp
+vi test.html
+docker cp test.html mycustomweb:/usr/share/nginx/html/
+docker exec -it mycustomweb sh
+docker commit --help
+docker commit -a "marcin" -c "create draft version for my custom web application" mycustomweb 
+docker commit -a "marcin" -m "create draft version for my custom web application" mycustomweb 
+docker images
+docker tag b38c321c339b mycustomweb:0.1 
+docker images
+docker run -d --name webserver100 -p 8080:80 mycustomweb:0.1 
+docker ps
+docker login
+docker login -u markuj5@gmail.com
+cat /home/student/.docker/config.json
+docker images
+docker tag b38c321c339b marcinkujawski/mycustomweb:0.1
+docker images
+docker push marcinkujawski/mycustomweb:0.1
+docker logout 
+cat /home/student/.docker/config.json
+docker inspect b38c321c339b
+docker search nginx --list-tags
+docker image  search nginx --list-tags 
+docker image  search nginx
+docker search nginx
+docker search nginx --list-tags
+docker search nginx --help
+curl -s -S 'https://registry.hub.docker.com/v2/repositories/library/centos/tags/' | jq '."results"[]["name"]' |sort
+sudo apt  install jq -y
+curl -s -S 'https://registry.hub.docker.com/v2/repositories/library/centos/tags/' | jq '."results"[]["name"]' |sort
+curl -s -S 'https://registry.hub.docker.com/v2/repositories/library/nginx/tags/' | jq '."results"[]["name"]' |sort
+curl -s -S 'https://registry.hub.docker.com/v2/repositories/library/nginx/tags/' | jq '."results"[]["name"]' |sort 
+https://registry.hub.docker.com/v2/repositories/library/centos/tags/
+curl -s -S https://registry.hub.docker.com/v2/repositories/library/centos/tags/
+curl -s -S https://registry.hub.docker.com/v2/repositories/library/centos/tags/ | python -m json.tool
+curl -s -S https://registry.hub.docker.com/v2/repositories/library/centos/tags/ | python3 -m json.tool
+curl -s -S 'https://registry.hub.docker.com/v2/repositories/library/ubuntu/tags/' | jq '."results"[]["name"]' |sort 
+vi get_image_version.sh
+chmod +x get_image_version.sh
+./get_image_version.sh ubuntu
+docker images --help
+docker search nginx
+vi /etc/hosts
+sudo vi /etc/hosts
+ping registry.lab.local
+sudo -i 
+docker ps \
+docker ps 
+dopcker ps -a
+docker ps -a
+docker ps 
+docker images
+docker login https://registry.lab.local
+cat /home/student/.docker/config.json.
+cat /home/student/.docker/config.json
+echo "YWRtaW46SGFyYm9yMTIzNDU=" | base64 -d 
+docker push registry.lab.local/library/mycustomweb:0.1
+docker tag b38c321c339b library/mycustomweb:0.1
+docker images
+docker push registry.lab.local/library/mycustomweb:0.1
+docker tag b38c321c339b registry.lab.local/library/mycustomweb:0.1
+docker images
+docker push registry.lab.local/library/mycustomweb:0.1
+docker tag b38c321c339b registry.lab.local/library/mycustomweb:0.2
+docker logout
+docker login https://registry.lab.local
+docker logout
+cat /home/student/.docker/config.json
+vi /home/student/.docker/config.json
+docker login https://registry.lab.local
+docker push registry.lab.local/library/mycustomweb:0.2
+docker top webserver 
+docker exec -it webserver ps 
+docker diff b38c321c339b
+docker ps -a
+docker diff a27b31bb13f6
+docker diff a27b31bb13f6| grep "A"
+sudo -i 
+wget https://github.com/docker/hub-tool/releases/download/v0.4.6/hub-tool-linux-amd64.tar.gz
+tar -xvf hub-tool-linux-amd64.tar.gz 
+cd hub-tool/
+ls
+install hub-tool/hub-tool /usr/bin/
+sudo install hub-tool/hub-tool /usr/bin/
+hub-tool tag ls nginx
+history
+hub-tool tag ls mariadb --all
