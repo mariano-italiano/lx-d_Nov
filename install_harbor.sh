@@ -1,4 +1,6 @@
 #!/bin/bash
+# Script installs Harbor onprem instance on Docker (as container)
+# Registry FQDN: registry.lab.local
 
 sudo apt install -y ca-certificates curl gnupg lsb-release vim
 
